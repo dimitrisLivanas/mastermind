@@ -1,6 +1,8 @@
 require_relative 'player'
 require_relative 'code'
 
+require 'colorize'
+
 class Game
   
   def initialize
@@ -8,6 +10,19 @@ class Game
     @guesser = Player.new
     @remaining_turns = 12
     @board = Board.new
+  end
+
+  def play
+    @remaining_turns.times do
+      loop do
+        puts "Please pick 4 colors from #{Code::COLORS}"
+        guess = @guesser.make_guess
+        if guess_is_valid?(guess)
+          break
+        end
+        puts 'Please enter valid choices'.red
+      end
+    end
   end
 
   private
