@@ -13,15 +13,17 @@ class Game
   end
 
   def play
+    guess = @guesser.make_guess
+    secret_code = @secret_code.code
     @remaining_turns.times do
       loop do
         puts "Please pick 4 colors from #{Code::COLORS}"
-        guess = @guesser.make_guess
         if guess_is_valid?(guess)
           break
         end
         puts 'Please enter valid choices'.red
       end
+      
     end
   end
 
@@ -48,11 +50,15 @@ class Game
       end
     end
     guess_copy.each do |color|
-      if secret_copy.include?(color)
+      if color != nil && secret_copy.include?(color)
         counter += 1
         secret_copy[secret_copy.index(color)] = nil
       end
     end
     counter
+  end
+
+  def show_matches(exact_matches, partial_matches)
+    puts "You have #{exact_matches} exact matches and #{partial_matches} partial matches."
   end
 end
