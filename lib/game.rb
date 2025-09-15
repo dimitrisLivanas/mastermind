@@ -53,10 +53,17 @@ class Game
     guess = nil
     @remaining_turns.times do
       guess = @computer_player.make_guess
-      puts guess
-      exact_matches = gets.chomp
-      partial_matches = gets.chomp
+      puts "CPUs guess is #{guess}"
+      puts 'How many exact matches does CPU have? Please enter a number.'
+      exact_matches = gets.chomp.to_i
+      puts 'How many partial matches does CPU have? Please enter a number.'
+      partial_matches = gets.chomp.to_i
+      if exact_matches == 4
+        puts 'CPU has WON!'
+        return
+      end
     end
+    puts 'CPU has LOST. Better luck next time!'
   end
 
   def guess_is_valid?(guess)
