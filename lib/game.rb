@@ -30,4 +30,10 @@ class Game
   def guess_is_valid?(guess)
     guess.size == 4 && guess.all? { |color| Code::COLORS.include?(color) }
   end
+
+  def exact_matches(guess, secret_code)
+    counter = 0
+    guess.each_with_index { |color, index| counter += 1 if guess[index] == secret_code[index] }
+    counter
+  end
 end
