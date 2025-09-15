@@ -36,4 +36,23 @@ class Game
     guess.each_with_index { |color, index| counter += 1 if guess[index] == secret_code[index] }
     counter
   end
+
+  def partial_matches(guess, secret_code)
+    counter = 0
+    guess_copy = guess.dup
+    secret_copy = secret_code.dup
+    guess_copy.each_with_index do |color, index|
+      if guess_copy[index] == secret_copy[index]
+        guess_copy[index] = nil
+        secret_copy[index] = nil
+      end
+    end
+    guess_copy.each do |color|
+      if secret_copy.include?(color)
+        counter += 1
+        secret_copy[secret_copy.index(color)] = nil
+      end
+    end
+    counter
+  end
 end
