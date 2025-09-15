@@ -12,6 +12,7 @@ class Game
   end
 
   def play
+    prompt_game_mode_choice
     secret_code = @secret_code.code
     guess = nil
     @remaining_turns.times do
@@ -75,5 +76,16 @@ class Game
 
   def win?(guess, secret_code)
     guess.eql?(secret_code)
+  end
+
+  def prompt_game_mode_choice
+    puts 'Do you want to be the Code MAKER or the Code GUESSER? Enter 1 or 2 respectively.'
+    loop do
+      input = gets.chomp.to_i
+      if input == 1 || input == 2
+        return input
+      end
+      puts 'Please choose a valid option (Enter 1 or 2).'
+    end
   end
 end
