@@ -1,4 +1,4 @@
-require_relative 'player'
+require_relative 'human_player'
 require_relative 'code'
 
 require 'colorize'
@@ -7,7 +7,7 @@ class Game
   
   def initialize
     @secret_code = Code.new
-    @guesser = Player.new
+    @guesser = HumanPlayer.new
     @remaining_turns = 12
   end
 
