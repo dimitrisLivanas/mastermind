@@ -1,5 +1,6 @@
 require_relative 'human_player'
 require_relative 'code'
+require_relative 'computer_player'
 
 require 'colorize'
 
@@ -7,15 +8,22 @@ class Game
   
   def initialize
     @secret_code = Code.new
-    @guesser = HumanPlayer.new
+    @human_player = HumanPlayer.new
+    @computer_player = ComputerPlayer.new
+    @guesser = nil
+    @code_maker = nil
     @remaining_turns = 12
   end
 
   def play
     user_choice = prompt_game_mode_choice
     if user_choice == 1
+      @guesser = @computer_player
+      @code_maker = @human_player
       play_maker_mode
     elsif user_choice ==2
+      @guesser = @human_player
+      @code_maker = @computer_player
       play_guesser_mode
     end
   end
@@ -42,6 +50,13 @@ class Game
   
   def play_maker_mode
     secret_code = prompt_player_code
+    guess = nil
+    @remaining_turns.times do
+      guess = @computer_player.make_guess
+      puts guess
+      exact_matches = gets.chomp
+      partial_matches = gets.chomp
+    end
   end
 
   def guess_is_valid?(guess)
@@ -85,7 +100,7 @@ class Game
     loop do
         puts "Please pick 4 colors from: "
         puts "#{Code::COLORS.join(', ')}"
-        guess = @guesser.make_guess
+        guess = @human_player.make_guess
         if guess_is_valid?(guess)
           return guess
         end
