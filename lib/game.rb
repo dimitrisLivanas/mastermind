@@ -12,20 +12,21 @@ class Game
   end
 
   def play
-    prompt_game_mode_choice
+    user_choice = prompt_game_mode_choice
+    if user_choice == 1
+      play_maker_mode
+    elsif user_choice ==2
+      play_guesser_mode
+    end
+  end
+
+  private
+
+  def play_guesser_mode
     secret_code = @secret_code.code
     guess = nil
     @remaining_turns.times do
-      loop do
-        puts "Please pick 4 colors from: "
-        puts "#{Code::COLORS.join(', ')}"
-        guess = @guesser.make_guess
-        if guess_is_valid?(guess)
-          break
-        end
-        puts 'Please enter valid choices'.red
-      end
-
+      guess = prompt_player_code # this was missing
       exact_matches_count = exact_matches(guess, secret_code)
       partial_matches_count = partial_matches(guess, secret_code)
       show_matches(exact_matches_count, partial_matches_count)
@@ -38,8 +39,10 @@ class Game
 
     puts 'You LOSE..You have no more tries.'.red
   end
-
-  private
+  
+  def play_maker_mode
+    secret_code = prompt_player_code
+  end
 
   def guess_is_valid?(guess)
     guess.size == 4 && guess.all? { |color| Code::COLOR_NAMES.include?(color) }
@@ -76,6 +79,18 @@ class Game
 
   def win?(guess, secret_code)
     guess.eql?(secret_code)
+  end
+
+  def prompt_player_code
+    loop do
+        puts "Please pick 4 colors from: "
+        puts "#{Code::COLORS.join(', ')}"
+        guess = @guesser.make_guess
+        if guess_is_valid?(guess)
+          return guess
+        end
+        puts 'Please enter valid choices'.red
+      end
   end
 
   def prompt_game_mode_choice

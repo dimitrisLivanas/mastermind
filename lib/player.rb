@@ -1,4 +1,4 @@
-class Player
+class HumanPlayer
 
   def make_guess
     gets.chomp.split(/[.,\s]+/)
