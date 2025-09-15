@@ -41,7 +41,7 @@ class Game
   private
 
   def guess_is_valid?(guess)
-    guess.size == 4 && guess.all? { |color| Code::COLORS.include?(color) }
+    guess.size == 4 && guess.all? { |color| Code::COLOR_NAMES.include?(color) }
   end
 
   def exact_matches(guess, secret_code)
@@ -70,7 +70,7 @@ class Game
   end
 
   def show_matches(exact_matches, partial_matches)
-    puts "You have #{exact_matches} exact matches and #{partial_matches} partial matches."
+    puts "You have (#{exact_matches}) exact matches and (#{partial_matches}) partial matches."
   end
 
   def win?(guess, secret_code)
