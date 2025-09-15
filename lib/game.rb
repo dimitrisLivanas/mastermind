@@ -9,7 +9,6 @@ class Game
     @secret_code = Code.new
     @guesser = Player.new
     @remaining_turns = 12
-    @board = Board.new
   end
 
   def play
@@ -17,21 +16,25 @@ class Game
     guess = nil
     @remaining_turns.times do
       loop do
-        puts "Please pick 4 colors from #{Code::COLORS}"
+        puts "Please pick 4 colors from: "
+        puts "#{Code::COLORS.join(', ')}"
         guess = @guesser.make_guess
         if guess_is_valid?(guess)
           break
         end
         puts 'Please enter valid choices'.red
       end
+
       exact_matches_count = exact_matches(guess, secret_code)
       partial_matches_count = partial_matches(guess, secret_code)
       show_matches(exact_matches_count, partial_matches_count)
+
       if win?(guess, secret_code)
         puts 'You WIN! You got it! Congrats!'.green
-        break
+        return
       end
     end
+
     puts 'You LOSE..You have no more tries.'.red
   end
 
