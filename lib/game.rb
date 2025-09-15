@@ -31,14 +31,16 @@ class Game
   private
 
   def play_guesser_mode
+    turn = 1
     secret_code = @secret_code.code
     guess = nil
     @remaining_turns.times do
-      guess = prompt_player_code # this was missing
+      show_turn(turn, @remaining_turns)
+      guess = prompt_player_code
       exact_matches_count = exact_matches(guess, secret_code)
       partial_matches_count = partial_matches(guess, secret_code)
       show_matches(exact_matches_count, partial_matches_count)
-
+      turn += 1
       if win?(guess, secret_code)
         puts 'You WIN! You got it! Congrats!'.green
         return
@@ -49,9 +51,11 @@ class Game
   end
   
   def play_maker_mode
-    secret_code = prompt_player_code
+    turn = 1
+    prompt_player_code
     guess = nil
     @remaining_turns.times do
+      show_turn(turn, @remaining_turns)
       guess = @computer_player.make_guess
       puts "CPUs guess is #{guess}"
       puts 'How many exact matches does CPU have? Please enter a number.'
@@ -124,5 +128,9 @@ class Game
       end
       puts 'Please choose a valid option (Enter 1 or 2).'
     end
+  end
+
+  def show_turn(current_turn, total_turns)
+    puts "Turn #{current_turn}/#{total_turns}:"
   end
 end
