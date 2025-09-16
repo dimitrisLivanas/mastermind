@@ -57,17 +57,17 @@ class Game
     @remaining_turns.times do
       show_turn(turn, @remaining_turns)
       guess = @computer_player.make_guess
-      puts "CPUs guess is #{guess}"
+      puts "CPUs guess is #{colorize_guess(guess)}"
       puts 'How many exact matches does CPU have? Please enter a number.'
       exact_matches = gets.chomp.to_i
       if exact_matches == 4
-        puts 'CPU has WON!'
+        puts 'CPU has WON!'.green
         return
       end
       puts 'How many partial matches does CPU have? Please enter a number.'
-      partial_matches = gets.chomp.to_i
+      partial_matches = gets.chomp.to_i # saves partial matches for future CPU logic implementation
     end
-    puts 'CPU has LOST. Better luck next time!'
+    puts 'CPU has LOST. Better luck next time!'.red
   end
 
   def guess_is_valid?(guess)
@@ -132,5 +132,16 @@ class Game
 
   def show_turn(current_turn, total_turns)
     puts "Turn #{current_turn}/#{total_turns}:"
+  end
+
+  def colorize_guess(guess)
+    colored_colors = guess.map do |color|
+      if color == 'purple'
+        color.magenta
+      else
+        color.colorize(color.to_sym)
+      end
+    end
+    colored_colors.join(' ')
   end
 end
